@@ -109,6 +109,8 @@ InitTestScene*.unity*
 Build/
 Builds/
 *web build*/
+/WindowsBuild/
+/WebBuild/
 
 # Unity solution / temporary files
 *.sln*
