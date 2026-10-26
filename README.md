@@ -52,14 +52,12 @@ Open MainMenuScene from the Assets/Scenes folder and press play.
 ## Project Structure
     ├── Assets/
     |   ├── Art/
-    |   ├── LightningBolt/
     |   ├── Prefabs/
     |   ├── Scenes/
     |   ├── Scripts/
     |   ├── Settings/
     |   ├── Sound/
-    |   ├── TextMesh Pro/
-    |   └── _Recovery/
+    |   └── TextMesh Pro/
     ├── gameplay/
     ├── Packages/
     ├── ProjectSettings/
