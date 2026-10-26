@@ -106,6 +106,7 @@ InitTestScene*.unity*
 .editorconfig
 
 # Unity build outputs
+*.[zZ][iI][pP]
 Build/
 Builds/
 *web build*/
