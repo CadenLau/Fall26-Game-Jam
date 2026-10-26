@@ -1,10 +1,20 @@
 using UnityEngine;
+[RequireComponent(typeof(Animator))]
 
+[RequireComponent(typeof(Collider2D))]
 public class BubbleScript : MonoBehaviour
 {
     [SerializeField] private float floatSpeed = 1f;
     [SerializeField] private float despawnY = 7f;
+    [SerializeField] private float wiggleAmountBase = 0.4f;
+    [SerializeField] private float wiggleAmountDeviation = 0.05f;
+    [SerializeField] private float wiggleFrequencyBase = 0.3f;
+    [SerializeField] private float wiggleFrequencyDeviation = 0.05f;
 
+    private float wiggleAmount;
+    private float wiggleFrequency;
+    private float startX;
+    private float lifetime;
     private IngredientScript ingredient;
     private Animator animator;
     private bool popped;
@@ -13,6 +23,10 @@ public class BubbleScript : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         animator.speed = 0f;
+        startX = transform.position.x;
+
+        wiggleAmount = wiggleAmountBase + Random.Range(-wiggleAmountDeviation, wiggleAmountDeviation);
+        wiggleFrequency = wiggleFrequencyBase + Random.Range(-wiggleFrequencyDeviation, wiggleFrequencyDeviation);
     }
 
     public void Initialize(IngredientScript contents)
@@ -36,7 +50,14 @@ public class BubbleScript : MonoBehaviour
             return;
         }
 
-        transform.position += Vector3.up * (floatSpeed * Time.deltaTime);
+        // transform.position += Vector3.up * (floatSpeed * Time.deltaTime);
+        lifetime += Time.deltaTime;
+
+        Vector3 position = transform.position;
+        position.x = startX + Mathf.Sin(lifetime * wiggleFrequency * Mathf.PI * 2f) * wiggleAmount;
+        position.y += floatSpeed * Time.deltaTime;
+
+        transform.position = position;
 
         if (transform.position.y > despawnY)
             Destroy(gameObject);

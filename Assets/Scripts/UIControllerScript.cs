@@ -17,6 +17,7 @@ public class UIControllerScript : MonoBehaviour
 
     [Header("Round and Game Over UI")]
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private TextMeshProUGUI failText;
     [SerializeField] private TextMeshProUGUI roundText;
 
     [Header("Audio")]
@@ -165,6 +166,11 @@ public class UIControllerScript : MonoBehaviour
         return type == IngredientType.Candy || type == RequiredIngredient.Type;
     }
 
+    public bool WillCompleteRecipe(IngredientType type)
+    {
+        return IsCorrectIngredient(type) && currentIngredientIndex == currentIngredients.Length - 1;
+    }
+
     public void CheckIngredient(IngredientType type)
     {
         if (!IsPlaying)
@@ -185,6 +191,7 @@ public class UIControllerScript : MonoBehaviour
 
             if (currentIngredientIndex == currentIngredients.Length)
             {
+                pool.FlashRoundVictory();
                 PlayRoundSound(victorySoundSource);
                 round++;
                 roundText.text = "ROUND " + round;
@@ -221,6 +228,7 @@ public class UIControllerScript : MonoBehaviour
         // PlayRoundSound(lossSoundSource);
         timerScript.StopTimer();
         pool.ClearSpawnedObjects();
+        failText.text = "ROUNDS COMPLETED: " + (round - 1);
         gameOverPanel.SetActive(true);
     }
 
@@ -231,6 +239,6 @@ public class UIControllerScript : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuScene");
     }
 }

@@ -143,8 +143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30920c0520b2d45bca3d39dc42d5ba78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  floatSpeed: 1
+  floatSpeed: 1.5
   despawnY: 7
+  wiggleAmountBase: 0.4
+  wiggleAmountDeviation: 0.05
+  wiggleFrequencyBase: 0.3
+  wiggleFrequencyDeviation: 0.05
 --- !u!95 &6110520238531827472
 Animator:
   serializedVersion: 7

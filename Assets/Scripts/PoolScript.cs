@@ -11,6 +11,7 @@ public class PoolScript : MonoBehaviour
     [SerializeField] private Canvas canvas;
     [SerializeField] private SpriteRenderer poolRenderer;
     [SerializeField] private Color wrongIngredientColor = Color.red;
+    [SerializeField] private Color roundVictoryColor = Color.yellow;
     [SerializeField] private Vector2 spawnRange = new Vector2(-3f, 3f);
     [SerializeField] private float spawnHeight = 0.75f;
     [SerializeField] private float delay = 1f;
@@ -25,6 +26,7 @@ public class PoolScript : MonoBehaviour
     private int spawnsSinceRequired;
     private Color originalColor;
     private Color flashStartColor;
+    private Color flashTargetColor;
     private float flashTimeRemaining;
 
     public IngredientScript[] IngredientPrefabs => ingredientPrefabs;
@@ -43,9 +45,9 @@ public class PoolScript : MonoBehaviour
             flashTimeRemaining = Mathf.Max(0f, flashTimeRemaining - Time.deltaTime);
             float progress = 1f - flashTimeRemaining;
             poolRenderer.color = progress < 0.5f
-                ? Color.Lerp(flashStartColor, wrongIngredientColor,
+                ? Color.Lerp(flashStartColor, flashTargetColor,
                     Mathf.SmoothStep(0f, 1f, progress * 2f))
-                : Color.Lerp(wrongIngredientColor, originalColor,
+                : Color.Lerp(flashTargetColor, originalColor,
                     Mathf.SmoothStep(0f, 1f, (progress - 0.5f) * 2f));
         }
 
@@ -62,7 +64,18 @@ public class PoolScript : MonoBehaviour
 
     public void FlashWrongIngredient()
     {
+        FlashPool(wrongIngredientColor);
+    }
+
+    public void FlashRoundVictory()
+    {
+        FlashPool(roundVictoryColor);
+    }
+
+    private void FlashPool(Color color)
+    {
         flashStartColor = poolRenderer.color;
+        flashTargetColor = color;
         flashTimeRemaining = 1f;
     }
 
@@ -118,8 +131,9 @@ public class PoolScript : MonoBehaviour
         collision.enabled = false;
         IngredientType type = collision.GetComponent<IngredientScript>().Type;
         SplashScript splash = Instantiate(splashPrefab, position, Quaternion.identity);
-        splash.Initialize(controller.IsCorrectIngredient(type) ? originalColor : wrongIngredientColor,
-            poolRenderer);
+        Color splashColor = controller.WillCompleteRecipe(type) ? roundVictoryColor
+            : controller.IsCorrectIngredient(type) ? originalColor : wrongIngredientColor;
+        splash.Initialize(splashColor, poolRenderer);
         splashSoundSource.PlayOneShot(splashSoundSource.clip);
         Destroy(collision.gameObject);
         controller.CheckIngredient(type);
