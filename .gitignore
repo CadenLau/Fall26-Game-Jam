@@ -112,6 +112,7 @@ Builds/
 *web build*/
 /WindowsBuild/
 /WebBuild/
+/Mimis-Windows/
 
 # Unity solution / temporary files
 *.sln*
