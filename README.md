@@ -30,7 +30,7 @@ Pop bubbles to drop ingredients into Mimi’s cauldron! Follow the recipe from l
 
 ## Screenshots
 #### Gameplay
-![Title](gameplay/title.jpg)
+![Title](gameplay/title.png)
 ![Gameplay1](gameplay/game1.jpg)
 ![Gameplay2](gameplay/game2.jpg)
 
